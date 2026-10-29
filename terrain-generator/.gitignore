@@ -1,0 +1,5 @@
+.vs/
+[Db]old/
+*.user
+*.userosscache
+*.sln.docstates
