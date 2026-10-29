@@ -29,7 +29,9 @@ FetchContent_MakeAvailable(glad)
 add_subdirectory(${glad_SOURCE_DIR}/cmake glad_cmake)
 glad_add_library(glad REPRODUCIBLE API gl:core=4.6 LANGUAGE c)
 
-add_executable(terrain-generator "main.cpp")
+
+
+add_executable(terrain-generator "src/main.cpp" "include/shader.h" "src/shader.cpp")
 target_link_libraries(terrain-generator PRIVATE glfw glad opengl32)
 
 # ====================================================================

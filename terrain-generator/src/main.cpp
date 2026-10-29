@@ -2,44 +2,13 @@
 #include <GLFW/glfw3.h>
 
 #include <iostream>
+#include "../include/shader.h"
 
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
 
 
-const char* vertex = "#version 330 core\n"
-"\n"
-"// Input vertex data from the Vertex Buffer Object (VBO)\n"
-"layout (location = 0) in vec3 aPos; \n"
-"\n"
-"// Output variable that will be sent to the fragment shader\n"
-"out vec4 vertexColor; \n"
-"\n"
-"void main()\n"
-"{\n"
-"    // gl_Position is a built-in OpenGL variable that sets the final vertex position\n"
-"    gl_Position = vec4(aPos, 1.0); \n"
-"    \n"
-"    // Assign a default orange/red color vector (RGBA) to pass down the pipeline\n"
-"    vertexColor = vec4(1.0, 0.5, 0.0, 1.0); \n"
-"}\n"
-"";
-
-const char* fragment = "#version 330 core\n"
-"\n"
-"// Input variable from the vertex shader (must match name and type exactly)\n"
-"in vec4 vertexColor;\n"
-"\n"
-"// The final output color vector for this pixel/fragment\n"
-"out vec4 FragColor;\n"
-"\n"
-"void main()\n"
-"{\n"
-"    // Set the pixel color to match the color received from the vertex shader\n"
-"    FragColor = vertexColor;\n"
-"}\n"
-"";
 
 
 float vertices[] = {
@@ -106,19 +75,9 @@ int main()
 	glEnableVertexAttribArray(0);
 
 	
-	unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertexShader, 1, &vertex, NULL);
-	glCompileShader(vertexShader);
 
-	unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragmentShader, 1, &fragment, NULL);
-	glCompileShader(fragmentShader);
-
-	unsigned int shaderProgram = glCreateProgram();
-	glAttachShader(shaderProgram, vertexShader);
-	glAttachShader(shaderProgram, fragmentShader);
-	glLinkProgram(shaderProgram);
-
+	
+	Shader shaderProgram = Shader("../../../../terrain-generator/shaders/vertex.glsl", "../../../../terrain-generator/shaders/fragment.glsl");
 
 	while(!glfwWindowShouldClose(window))
 	{
@@ -128,7 +87,7 @@ int main()
 
 
 		// main loop
-		glUseProgram(shaderProgram);
+		shaderProgram.use();
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
 
